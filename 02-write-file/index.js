@@ -1,5 +1,7 @@
 const fs = require('fs')
-const writeStream = fs.createWriteStream('userInput.txt')
+const path = require('path')
+const filePath = path.join(__dirname,'userInput.txt')
+const writeStream = fs.createWriteStream(filePath)
 const farewell = 'input completed'
 process.stdout.write('Please, enter the text: ')
 process.stdin.setEncoding('utf-8')
