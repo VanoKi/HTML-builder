@@ -17,3 +17,8 @@ const filePath = 'userInput.txt'
 // console.log(process.env);
 // console.log(process.env.Path);
 console.log(process.cwd());
+console.log(process.platform);
+console.log(process.memoryUsage());
+console.log(process.execPath);
+console.log(process.pid);
+console.log(process.ppid);
