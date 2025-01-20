@@ -15,11 +15,10 @@ process.stdin.on('data', (data) => {
 })
 
 process.on('SIGINT', () => {
-  process.stdout.write(farewell)
   process.exit(0)
 })
 process.on('exit', () => {
-  process.stdout.write(farewell)
+  process.stdout.write('\n' + farewell)
   }
 )
 
