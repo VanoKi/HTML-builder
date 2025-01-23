@@ -6,15 +6,15 @@ const pathToDist = path.join(__dirname, 'project-dist')
 const pathToHtml = path.join(__dirname, 'template.html')
 const pathToIndex = path.join(pathToDist, 'index.html')
 
-// fs.mkdir(pathToDist, {recursive:true},(e) => {
-//   if (e) console.error(e);
-//   console.log(`result dir created`);
-// })
-// fs.writeFile(pathToIndex, '', (e) => {
-//   if (e) console.error(e);
-//   console.log(`file index.html created`);
-//   // processTemplate()
-// })
+fs.mkdir(pathToDist, {recursive:true},(e) => {
+  if (e) console.error(e);
+  console.log(`result dir created`);
+})
+fs.writeFile(pathToIndex, '', (e) => {
+  if (e) console.error(e);
+  console.log(`file index.html created`);
+  processTemplate()
+})
 
 async function readComponentsFile(component) {
   const pathToComponents = path.join(__dirname, 'components', `${component}.html`)
@@ -37,7 +37,7 @@ async function processTemplate() {
     const lines = data.split('\n')
     for (const line of lines) {
       if (line.includes('{{')) {
-        const match = line.match(/{{w+}}/)
+        const match = line.match(/{{\w+}}/)
         if (match) {
           const componentName = match[0].slice(2, -2)
           const componentContent = await readComponentsFile(componentName)
@@ -52,6 +52,10 @@ async function processTemplate() {
     console.error(e);
   }
 }
+
+// processTemplate().then(data => {
+//   console.log(data);
+// })
 
 // fs.readFile(pathToHtml, 'utf-8', (err, data) => {
 //   if (err) console.error(err);
