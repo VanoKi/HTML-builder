@@ -6,23 +6,23 @@ console.log(pathToDist);
 const pathToHtml = path.join(__dirname, 'template.html')
 console.log(pathToHtml);
 
-// fs.readFile(pathToHtml, 'utf-8', (err, data) => {
-//   if (err) console.error(err);
-//   const updated = data.split('\n')
-//   // console.log(updated);
-//   for (const string of updated) {
-//     if (string.match(/\{\{.*?\}\}/g)) {
-//       console.log(string);
-//     }
-//   }
-// })
+function readComponentsFile(component) {
+  const pathToComponents = path.join(__dirname, 'components', `${component}.html`)
+  return pathToComponents
+}
+
+fs.readFile(pathToHtml, 'utf-8', (err, data) => {
+  if (err) console.error(err);
+  const updated = data.split('\n')
+  // console.log(updated);
+  for (const string of updated) {
+    if (string.match(/{{\w+}}/g)) {
+      console.log(string.match(/{{\w+}}/g));
+    }
+  }
+})
 
 // const stream = fs.createReadStream(pathToHtml, {encoding: 'utf-8'})
 // stream.on('data', chunk => console.log(chunk))
 
-function readComponentsFile(component) {
-  const pathTpComponents = path.join(__dirname, 'components', `${component}.html`)
-  return pathTpComponents
-}
-
-console.log(readComponentsFile('footer'));
+// console.log(readComponentsFile('footer'));
