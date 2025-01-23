@@ -1,6 +1,5 @@
 const fs = require('fs')
 const path = require('path')
-const rl = require('readline')
 
 const pathToDist = path.join(__dirname, 'project-dist')
 const pathToHtml = path.join(__dirname, 'template.html')
@@ -13,6 +12,7 @@ fs.mkdir(pathToDist, {recursive:true},(e) => {
 fs.writeFile(pathToIndex, '', (e) => {
   if (e) console.error(e);
   console.log(`file index.html created`);
+  processTemplate()
 })
 
 async function readComponentsFile(component) {
@@ -26,25 +26,26 @@ async function readComponentsFile(component) {
   }
 }
 
-function processTemplate() {
-  const readline = rl.createInterface({
-    input: fs.createReadStream(pathToHtml, 'utf-8'),
-    crlfDelay: Infinity,
-  })
-
-  for await (const line of readline) {
-    if (line.includes('{{')) {
-      const match = line.match(/{{w+}}/)
-      if (match) {
-        const componentName = match[0].slice(2, -2)
-        const componentContent = await readComponentsFile(componentName)
-        await fs.promises.appendFile(pathToIndex, componentContent + '\n')
+async function processTemplate() {
+  try {
+    const data = await fs.promises.readFile(pathToHtml, 'utf-8')
+    const lines = data.split('\n')
+    for (const line of lines) {
+      if (line.includes('{{')) {
+        const match = line.match(/{{w+}}/)
+        if (match) {
+          const componentName = match[0].slice(2, -2)
+          const componentContent = await readComponentsFile(componentName)
+          await fs.promises.appendFile(pathToIndex, componentContent + '\n')
+        }
+      } else {
+        await fs.promises.appendFile(pathToIndex, line + '\n')
       }
-    } else {
-      await fs.promises.appendFile(pathToIndex, line + '\n')
     }
+    console.log(`data added to index.html`);
+  } catch (e) {
+    console.error(e);
   }
-  console.log(`data added to index`);
 }
 
 // fs.readFile(pathToHtml, 'utf-8', (err, data) => {
