@@ -17,7 +17,8 @@ fs.readFile(pathToHtml, 'utf-8', (err, data) => {
   // console.log(updated);
   for (const string of updated) {
     if (string.match(/{{\w+}}/g)) {
-      console.log(string.match(/{{\w+}}/g));
+      let component = string.match(/{{\w+}}/g)[0].match(/\w+/g).toString();
+      console.log(readComponentsFile(component));
     }
   }
 })
