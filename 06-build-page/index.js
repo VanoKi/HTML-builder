@@ -6,9 +6,18 @@ console.log(pathToDist);
 const pathToHtml = path.join(__dirname, 'template.html')
 console.log(pathToHtml);
 
+fs.mkdir(pathToDist, (e) => {
+  if (e) console.error(e);
+  console.log(`result dir created`);
+})
+
 function readComponentsFile(component) {
   const pathToComponents = path.join(__dirname, 'components', `${component}.html`)
-  return pathToComponents
+  // fs.readFile(pathToComponents, 'utf-8', (e, data) => {
+  //   if (e) console.error(e);
+  //   console.log(data);
+  // })
+  return `the component from ${pathToComponents} here`
 }
 
 fs.readFile(pathToHtml, 'utf-8', (err, data) => {
