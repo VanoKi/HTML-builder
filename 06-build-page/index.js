@@ -96,3 +96,19 @@ async function copyDir(source, destination) {
 }
 
 copyDir(path.join(__dirname, 'assets'), path.join(pathToDist, 'assets'))
+
+const dirPath = path.join(__dirname, 'styles')
+const outputFile = path.join(__dirname, 'project-dist', 'style.css')
+// console.log(outputFile);
+async function mergeCss() {
+  const files = await fs.promises.readdir(dirPath)
+  const cssFiles = files.filter(file => path.extname(file) === '.css')
+  await fs.promises.writeFile(outputFile, '', 'utf-8')
+  for (const cssFile of cssFiles) {
+    const filePath = path.join(dirPath, cssFile)
+    const styles = await fs.promises.readFile(filePath, 'utf-8')
+    await fs.promises.appendFile(outputFile, `/* ${cssFile} */\n${styles}\n`, 'utf-8')
+  }
+}
+
+mergeCss()
