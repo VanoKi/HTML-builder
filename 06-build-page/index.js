@@ -75,3 +75,24 @@ async function processTemplate() {
 
 // const stream = fs.createReadStream(pathToHtml, {encoding: 'utf-8'})
 // stream.on('data', chunk => console.log(chunk))
+
+async function copyDir(source, destination) {
+  try {
+    await fs.promises.mkdir(destination, {recursive: true})
+    const entries = await fs.promises.readdir(source, {withFileTypes: true})
+    for (const entry of entries) {
+      const sourcePath = path.join(source, entry.name)
+      const destinationPath = path.join(destination, entry.name)
+      if (entry.isDirectory()) {
+        await copyDir(sourcePath, destinationPath)
+      } else if (entry.isFile()) {
+        await fs.promises.copyFile(sourcePath, destinationPath)
+      }
+    }
+    console.log(`files copied`);
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+copyDir(path.join(__dirname, 'assets'), path.join(pathToDist, 'assets'))
