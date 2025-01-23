@@ -1,19 +1,20 @@
 const fs = require('fs')
 const path = require('path')
+const { read } = require("fs");
 
 const pathToDist = path.join(__dirname, 'project-dist')
 const pathToHtml = path.join(__dirname, 'template.html')
 const pathToIndex = path.join(pathToDist, 'index.html')
 
-fs.mkdir(pathToDist, {recursive:true},(e) => {
-  if (e) console.error(e);
-  console.log(`result dir created`);
-})
-fs.writeFile(pathToIndex, '', (e) => {
-  if (e) console.error(e);
-  console.log(`file index.html created`);
-  processTemplate()
-})
+// fs.mkdir(pathToDist, {recursive:true},(e) => {
+//   if (e) console.error(e);
+//   console.log(`result dir created`);
+// })
+// fs.writeFile(pathToIndex, '', (e) => {
+//   if (e) console.error(e);
+//   console.log(`file index.html created`);
+//   // processTemplate()
+// })
 
 async function readComponentsFile(component) {
   const pathToComponents = path.join(__dirname, 'components', `${component}.html`)
@@ -25,6 +26,10 @@ async function readComponentsFile(component) {
     return ''
   }
 }
+
+// readComponentsFile('footer').then(data => {
+//   console.log(data);
+// })
 
 async function processTemplate() {
   try {
